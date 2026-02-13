@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRISP 提示词生成器</title>
+    <title>小程序调起页面</title>
     <style>
         * {
             margin: 0;
@@ -12,551 +12,159 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
+            height: 100vh;
+            background-image: url('./背景1-科技鹅.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            backdrop-filter: blur(3px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
-
-        .content {
             padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 90%;
         }
 
-        .crisp-section {
-            margin-bottom: 30px;
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 25px;
-            border-left: 4px solid #667eea;
-        }
-
-        .crisp-section.c { border-left-color: #e74c3c; }
-        .crisp-section.r { border-left-color: #3498db; }
-        .crisp-section.i { border-left-color: #2ecc71; }
-        .crisp-section.s { border-left-color: #f39c12; }
-        .crisp-section.p { border-left-color: #9b59b6; }
-
-        .crisp-label {
-            font-size: 1.8em;
+        .title {
+            font-size: 24px;
             font-weight: bold;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .crisp-label .letter {
-            background: #667eea;
-            color: white;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2em;
-        }
-
-        .crisp-section.c .letter { background: #e74c3c; }
-        .crisp-section.r .letter { background: #3498db; }
-        .crisp-section.i .letter { background: #2ecc71; }
-        .crisp-section.s .letter { background: #f39c12; }
-        .crisp-section.p .letter { background: #9b59b6; }
-
-        .crisp-description {
-            color: #666;
-            margin-bottom: 15px;
-            font-style: italic;
-        }
-
-        .crisp-input {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1em;
-            font-family: inherit;
-            transition: border-color 0.3s;
-            min-height: 80px;
-        }
-
-        .crisp-input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .crisp-input.large {
-            min-height: 150px;
-        }
-
-        .button-container {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 15px 30px;
-            font-size: 1.1em;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .btn-generate {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .btn-generate:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-clear {
-            background: #e0e0e0;
             color: #333;
-        }
-
-        .btn-clear:hover {
-            background: #d0d0d0;
-        }
-
-        .result-section {
-            margin-top: 40px;
-            padding-top: 40px;
-            border-top: 2px solid #e0e0e0;
-        }
-
-        .result-title {
-            font-size: 1.5em;
             margin-bottom: 20px;
-            color: #333;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
-        .result-output {
-            width: 100%;
-            min-height: 200px;
-            padding: 20px;
-            background: #f8f9fa;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-family: 'Courier New', monospace;
-            font-size: 1em;
-            line-height: 1.6;
-            resize: vertical;
+        .description {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.5;
         }
 
-        .copy-btn {
-            margin-top: 15px;
-            padding: 12px 25px;
-            background: #2ecc71;
+        .launch-btn {
+            background: linear-gradient(135deg, #1aad19, #2dc653);
             color: white;
             border: none;
-            border-radius: 8px;
-            cursor: pointer;
+            padding: 15px 30px;
+            font-size: 18px;
             font-weight: bold;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(29, 173, 25, 0.3);
         }
 
-        .copy-btn:hover {
-            background: #27ae60;
+        .launch-btn:hover {
             transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(29, 173, 25, 0.4);
         }
 
-        .copy-btn.copied {
-            background: #27ae60;
+        .launch-btn:active {
+            transform: translateY(0);
         }
 
-        .hidden {
-            display: none;
+        .tips {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #999;
+            line-height: 1.4;
         }
 
-        @media (max-width: 768px) {
-            .content {
-                padding: 20px;
+        .auto-launch {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
             }
             
-            .crisp-section {
-                padding: 20px;
+            .title {
+                font-size: 20px;
             }
             
-            .button-container {
-                flex-direction: column;
-            }
-            
-            .header h1 {
-                font-size: 2em;
+            .launch-btn {
+                padding: 12px 25px;
+                font-size: 16px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>CRISP 提示词生成器</h1>
-            <p>使用 CRISP 框架创建高质量的 AI Agent 提示词</p>
+        <h1 class="title">🚀 启动小程序</h1>
+        <p class="description">点击下方按钮打开微信小程序</p>
+        
+        <button class="launch-btn" onclick="launchMiniProgram()">
+            打开小程序
+        </button>
+        
+        <div class="tips">
+            💡 请确保您的设备已安装微信应用
         </div>
-
-        <div class="content">
-            <!-- Context -->
-            <div class="crisp-section c">
-                <div class="crisp-label">
-                    <span class="letter">C</span>
-                    <span>Context (背景/上下文)</span>
-                </div>
-                <p class="crisp-description">描述任务的背景、环境和相关信息</p>
-                <textarea class="crisp-input" id="context" placeholder="例如：这是一个电商网站的前端项目，使用 React + TypeScript 技术栈，需要添加购物车功能..."></textarea>
-            </div>
-
-            <!-- Role -->
-            <div class="crisp-section r">
-                <div class="crisp-label">
-                    <span class="letter">R</span>
-                    <span>Role (角色)</span>
-                </div>
-                <p class="crisp-description">指定 AI 扮演的角色或专业身份</p>
-                <textarea class="crisp-input" id="role" placeholder="例如：你是一位经验丰富的前端开发工程师，专注于 React 生态..."></textarea>
-            </div>
-
-            <!-- Intent -->
-            <div class="crisp-section i">
-                <div class="crisp-label">
-                    <span class="letter">I</span>
-                    <span>Intent (意图)</span>
-                </div>
-                <p class="crisp-description">清晰表达想要实现的目标或结果</p>
-                <textarea class="crisp-input large" id="intent" placeholder="例如：我需要实现一个购物车组件，支持添加商品、删除商品、修改数量、计算总价等功能，界面要美观易用..."></textarea>
-            </div>
-
-            <!-- Specifics -->
-            <div class="crisp-section s">
-                <div class="crisp-label">
-                    <span class="letter">S</span>
-                    <span>Specifics (具体细节)</span>
-                </div>
-                <p class="crisp-description">提供具体的技术要求、约束条件、格式等</p>
-                <textarea class="crisp-input large" id="specifics" placeholder="例如：使用 TypeScript，组件使用函数式组件，使用 hooks 管理状态，样式使用 CSS Modules，需要支持响应式设计，代码需要有完整的类型定义和注释..."></textarea>
-            </div>
-
-            <!-- Presentation -->
-            <div class="crisp-section p">
-                <div class="crisp-label">
-                    <span class="letter">P</span>
-                    <span>Presentation (呈现方式)</span>
-                </div>
-                <p class="crisp-description">说明期望的输出格式、结构、交付物等</p>
-                <textarea class="crisp-input" id="presentation" placeholder="例如：请提供完整的代码文件，包括组件代码、样式文件、类型定义文件，并附带使用说明和示例..."></textarea>
-            </div>
-
-            <div class="button-container">
-                <button class="btn btn-generate" onclick="generatePrompt()">
-                    <span>✨</span> 生成提示词
-                </button>
-                <button class="btn btn-clear" onclick="clearAll()">
-                    <span>🗑️</span> 清空
-                </button>
-            </div>
-
-            <div class="result-section hidden" id="resultSection">
-                <h2 class="result-title">
-                    <span>📋</span> 生成的提示词
-                </h2>
-                <textarea class="result-output" id="resultOutput"></textarea>
-                <div class="button-container" style="margin-top: 15px;">
-                    <button class="copy-btn" onclick="copyToClipboard()" id="copyBtn" style="margin: 0;">
-                        <span>📋</span> 复制到剪贴板
-                    </button>
-                    <button class="copy-btn" onclick="optimizePrompt()" id="optimizeBtn" style="background: #9b59b6; margin: 0;">
-                        <span>🎯</span> 使用混元润色优化
-                    </button>
-                </div>
-
-                <div class="hidden" id="optimizedSection" style="margin-top: 25px; padding-top: 25px; border-top: 2px solid #e0e0e0;">
-                    <h2 class="result-title">
-                        <span>✨</span> 润色优化后的提示词
-                    </h2>
-                    <textarea class="result-output" id="optimizedOutput" readonly></textarea>
-                    <div class="button-container" style="margin-top: 15px;">
-                        <button class="copy-btn" onclick="copyOptimized()" id="copyOptimizedBtn" style="margin: 0;">
-                            <span>📋</span> 复制优化版
-                        </button>
-                        <button class="copy-btn" onclick="useOriginal()" id="useOriginalBtn" style="background: #f39c12; margin: 0;">
-                            <span>↩️</span> 使用原始版本
-                        </button>
-                    </div>
-                </div>
-            </div>
+        
+        <div class="auto-launch">
+            正在自动打开小程序...
         </div>
     </div>
 
     <script>
-        // 混元API配置
-        const HUNYUAN_API = {
-            url: 'https://yuanqi.tencent.com/openapi/v1/agent/chat/completions',
-            assistant_id: 'SRP7LFnI1zg8',
-            token: 'd7ygwiuBI8Q5LOo7pTOsswbz3Yx4xDsZ'
-        };
-
-        function validateCRISPPrompt(prompt) {
-            const sections = ['Context', 'Role', 'Intent', 'Specifics', 'Presentation'];
-            const hasSection = sections.some(section => prompt.includes(`## ${section}`));
+        // 调起小程序的函数
+        function launchMiniProgram() {
+            const scheme = 'weixin://dl/business/?appid=wxdd44725bb7a72c6d&path=pages/home/index';
             
-            if (!hasSection) {
-                return {
-                    valid: false,
-                    message: '提示词未包含 CRISP 框架的核心要素（Context、Role、Intent、Specifics、Presentation），请完善输入内容。'
-                };
-            }
-
-            // 检查是否有实际内容
-            const lines = prompt.split('\n').filter(line => line.trim());
-            if (lines.length < 3) {
-                return {
-                    valid: false,
-                    message: '提示词内容过于简单，请提供更详细的描述。'
-                };
-            }
-
-            return { valid: true };
-        }
-
-        function generatePrompt() {
-            const context = document.getElementById('context').value.trim();
-            const role = document.getElementById('role').value.trim();
-            const intent = document.getElementById('intent').value.trim();
-            const specifics = document.getElementById('specifics').value.trim();
-            const presentation = document.getElementById('presentation').value.trim();
-
-            let prompt = '';
-
-            if (context) {
-                prompt += `## Context\n${context}\n\n`;
-            }
-
-            if (role) {
-                prompt += `## Role\n${role}\n\n`;
-            }
-
-            if (intent) {
-                prompt += `## Intent\n${intent}\n\n`;
-            }
-
-            if (specifics) {
-                prompt += `## Specifics\n${specifics}\n\n`;
-            }
-
-            if (presentation) {
-                prompt += `## Presentation\n${presentation}`;
-            }
-
-            if (!prompt) {
-                alert('请至少填写一项内容！');
-                return;
-            }
-
-            // 验证CRISP框架
-            const validation = validateCRISPPrompt(prompt);
-            if (!validation.valid) {
-                alert('⚠️ ' + validation.message + '\n\n仍然要继续吗？');
-            }
-
-            document.getElementById('resultOutput').value = prompt;
-            document.getElementById('resultSection').classList.remove('hidden');
+            // 尝试直接跳转
+            window.location.href = scheme;
             
-            // 隐藏优化区域
-            document.getElementById('optimizedSection').classList.add('hidden');
-            
-            // 滚动到结果区域
-            document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        async function optimizePrompt() {
-            const originalPrompt = document.getElementById('resultOutput').value.trim();
-            
-            if (!originalPrompt) {
-                alert('请先生成提示词！');
-                return;
-            }
-
-            const optimizeBtn = document.getElementById('optimizeBtn');
-            optimizeBtn.innerHTML = '<span>⏳</span> 正在优化中...';
-            optimizeBtn.disabled = true;
-
-            try {
-                const optimizeInstruction = `你是一位专业的提示词工程师，擅长使用CRISP框架优化提示词。
-
-请对以下用户提供的提示词进行润色和优化：
-1. 保持CRISP框架的结构
-2. 使语言更加专业、清晰、具体
-3. 补充可能遗漏的关键信息
-4. 提升提示词的可执行性和效果
-5. 保持原始意图不变
-
-原始提示词：
-${originalPrompt}
-
-请直接输出优化后的提示词，不要包含任何解释性文字。`;
-
-                const response = await fetch(HUNYUAN_API.url, {
-                    method: 'POST',
-                    headers: {
-                        'X-Source': 'openapi',
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${HUNYUAN_API.token}`
-                    },
-                    body: JSON.stringify({
-                        assistant_id: HUNYUAN_API.assistant_id,
-                        user_id: 'user_' + Date.now(),
-                        stream: false,
-                        messages: [
-                            {
-                                role: 'user',
-                                content: [
-                                    {
-                                        type: 'text',
-                                        text: optimizeInstruction
-                                    }
-                                ]
-                            }
-                        ]
-                    })
-                });
-
-                if (!response.ok) {
-                    throw new Error('API请求失败');
-                }
-
-                const data = await response.json();
-                let optimizedPrompt = '';
-
-                // 解析API响应
-                if (data && data.choices && data.choices[0] && data.choices[0].message) {
-                    const content = data.choices[0].message.content;
-                    if (Array.isArray(content)) {
-                        optimizedPrompt = content.find(item => item.type === 'text')?.text || '';
-                    } else {
-                        optimizedPrompt = content;
-                    }
-                } else if (data && data.reply) {
-                    optimizedPrompt = data.reply;
-                }
-
-                if (!optimizedPrompt) {
-                    throw new Error('未获取到优化结果');
-                }
-
-                document.getElementById('optimizedOutput').value = optimizedPrompt;
-                document.getElementById('optimizedSection').classList.remove('hidden');
+            // 备用方案：使用 iframe 尝试调起
+            setTimeout(() => {
+                const iframe = document.createElement('iframe');
+                iframe.style.display = 'none';
+                iframe.src = scheme;
+                document.body.appendChild(iframe);
                 
-                // 滚动到优化区域
-                document.getElementById('optimizedSection').scrollIntoView({ behavior: 'smooth' });
-
-            } catch (error) {
-                console.error('优化失败:', error);
-                alert('润色优化失败：' + error.message + '\n\n请检查网络连接或稍后重试。');
-            } finally {
-                optimizeBtn.innerHTML = '<span>🎯</span> 使用混元润色优化';
-                optimizeBtn.disabled = false;
-            }
-        }
-
-        function clearAll() {
-            if (confirm('确定要清空所有内容吗？')) {
-                document.getElementById('context').value = '';
-                document.getElementById('role').value = '';
-                document.getElementById('intent').value = '';
-                document.getElementById('specifics').value = '';
-                document.getElementById('presentation').value = '';
-                document.getElementById('resultSection').classList.add('hidden');
-                document.getElementById('resultOutput').value = '';
-                document.getElementById('optimizedSection').classList.add('hidden');
-                document.getElementById('optimizedOutput').value = '';
-            }
-        }
-
-        function copyToClipboard() {
-            const resultOutput = document.getElementById('resultOutput');
-            const copyBtn = document.getElementById('copyBtn');
-            
-            resultOutput.select();
-            resultOutput.setSelectionRange(0, 99999);
-            
-            navigator.clipboard.writeText(resultOutput.value).then(() => {
-                copyBtn.innerHTML = '<span>✅</span> 已复制！';
-                copyBtn.classList.add('copied');
-                
+                // 清理 iframe
                 setTimeout(() => {
-                    copyBtn.innerHTML = '<span>📋</span> 复制到剪贴板';
-                    copyBtn.classList.remove('copied');
-                }, 2000);
-            }).catch(err => {
-                alert('复制失败，请手动复制');
-            });
+                    document.body.removeChild(iframe);
+                }, 1000);
+            }, 100);
         }
 
-        function copyOptimized() {
-            const optimizedOutput = document.getElementById('optimizedOutput');
-            const copyOptimizedBtn = document.getElementById('copyOptimizedBtn');
+        // 页面加载完成后立即调起小程序
+        window.addEventListener('load', () => {
+            // 立即调起小程序
+            setTimeout(() => {
+                launchMiniProgram();
+            }, 500); // 稍微延迟0.5秒确保页面完全加载
             
-            optimizedOutput.select();
-            optimizedOutput.setSelectionRange(0, 99999);
+            // 检测是否在微信环境中
+            const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
             
-            navigator.clipboard.writeText(optimizedOutput.value).then(() => {
-                copyOptimizedBtn.innerHTML = '<span>✅</span> 已复制！';
-                
-                setTimeout(() => {
-                    copyOptimizedBtn.innerHTML = '<span>📋</span> 复制优化版';
-                }, 2000);
-            }).catch(err => {
-                alert('复制失败，请手动复制');
-            });
-        }
-
-        function useOriginal() {
-            if (confirm('确定要使用原始版本吗？优化版本将被隐藏。')) {
-                document.getElementById('optimizedSection').classList.add('hidden');
+            if (isWeChat) {
+                // 在微信中，可以直接使用 URL Scheme
+                console.log('检测到微信环境');
+            } else {
+                // 非微信环境的提示
+                console.log('非微信环境，可能需要先打开微信');
             }
-        }
+        });
+
+        // 处理页面可见性变化（用户切换应用后返回）
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+                console.log('用户返回页面');
+            }
+        });
     </script>
 </body>
 </html>
