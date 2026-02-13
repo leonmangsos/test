@@ -114,14 +114,25 @@
         </div>
         
         <div class="auto-launch">
-            正在自动打开小程序...
+            页面将在 <span id="countdown">3</span> 秒后自动打开小程序
         </div>
     </div>
 
     <script>
+        let isLaunched = false; // 防止重复调起
+
         // 调起小程序的函数
         function launchMiniProgram() {
+            if (isLaunched) return; // 如果已经调起过，直接返回
+            isLaunched = true;
+            
             const scheme = 'weixin://dl/business/?appid=wxdd44725bb7a72c6d&path=pages/home/index';
+            
+            // 更新提示文字
+            const autoLaunchElement = document.querySelector('.auto-launch');
+            if (autoLaunchElement) {
+                autoLaunchElement.textContent = '正在打开小程序...';
+            }
             
             // 尝试直接跳转
             window.location.href = scheme;
@@ -140,13 +151,24 @@
             }, 100);
         }
 
-        // 页面加载完成后立即调起小程序
-        window.addEventListener('load', () => {
-            // 立即调起小程序
-            setTimeout(() => {
-                launchMiniProgram();
-            }, 500); // 稍微延迟0.5秒确保页面完全加载
+        // 自动倒计时并调起小程序
+        let countdown = 3;
+        const countdownElement = document.getElementById('countdown');
+        
+        const timer = setInterval(() => {
+            countdown--;
+            if (countdownElement) {
+                countdownElement.textContent = countdown;
+            }
             
+            if (countdown <= 0) {
+                clearInterval(timer);
+                launchMiniProgram();
+            }
+        }, 1000);
+
+        // 页面加载完成后的处理
+        window.addEventListener('load', () => {
             // 检测是否在微信环境中
             const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
             
